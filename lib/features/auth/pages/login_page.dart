@@ -8,6 +8,7 @@ import 'package:task_manager/common/widget/custom_otn_btn.dart';
 import 'package:task_manager/common/widget/custom_text.dart';
 import 'package:task_manager/common/widget/heighspacer.dart';
 import 'package:task_manager/common/widget/reusable_text.dart';
+import 'package:task_manager/features/auth/pages/otp_page.dart';
 
 class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({super.key});
@@ -89,6 +90,14 @@ class _LoginPageState extends ConsumerState<LoginPage> {
             Padding(
               padding: const EdgeInsets.all(10.0),
               child: CustomOtlnBtn(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const OtpPage(),
+                      ),
+                    );
+                  },
                   width: AppConst.kWidth * 0.9,
                   height: AppConst.kHeight * 0.075,
                   color: AppConst.kBkDark,
