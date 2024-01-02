@@ -19,3 +19,14 @@ class AppConst {
   static double kHeight = 825.h;
   static double kRadius = 12.h;
 }
+
+List<dynamic> colors = const [
+  Color(0xFFd80000),
+  Color(0xFF027eb5),
+  Color(0xFF20a31E),
+  Color(0xFFF9F900),
+  Color(0xFFFF00DD),
+];
+
+String titles = "";
+String descs = "";

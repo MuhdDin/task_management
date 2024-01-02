@@ -5,12 +5,15 @@ import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:task_manager/common/utils/constants.dart';
 import 'package:task_manager/common/widget/appstyle.dart';
 import 'package:task_manager/common/widget/custom_text.dart';
-import 'package:task_manager/common/widget/expansion_tile.dart';
 import 'package:task_manager/common/widget/heighspacer.dart';
 import 'package:task_manager/common/widget/reusable_text.dart';
 import 'package:task_manager/common/widget/widthspacer.dart';
-import 'package:task_manager/features/todo/controllers/xpansion_provider.dart';
-import 'package:task_manager/features/todo/widget/todo_tile.dart';
+import 'package:task_manager/features/todo/controllers/todo/todo_provider.dart';
+import 'package:task_manager/features/todo/pages/add.dart';
+import 'package:task_manager/features/todo/widget/completed_task.dart';
+import 'package:task_manager/features/todo/widget/day_after_tomorrow.dart';
+import 'package:task_manager/features/todo/widget/today_task.dart';
+import 'package:task_manager/features/todo/widget/tomorrow_task.dart';
 
 class Homepage extends ConsumerStatefulWidget {
   const Homepage({super.key});
@@ -27,6 +30,7 @@ class _HomePageState extends ConsumerState<Homepage>
 
   @override
   Widget build(BuildContext context) {
+    ref.watch(todoStateProvider.notifier).refresh();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -57,7 +61,14 @@ class _HomePageState extends ConsumerState<Homepage>
                         ),
                       ),
                       child: GestureDetector(
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const AddTask(),
+                            ),
+                          );
+                        },
                         child: const Icon(
                           Icons.add,
                           color: AppConst.kBkDark,
@@ -187,82 +198,21 @@ class _HomePageState extends ConsumerState<Homepage>
                       Container(
                         color: AppConst.kBkLight,
                         height: AppConst.kHeight * 0.3,
-                        child: ListView(
-                          children: [
-                            TodoTile(
-                              start: "03:00",
-                              end: "05:00",
-                              switcher:
-                                  Switch(value: true, onChanged: (value) {}),
-                            )
-                          ],
-                        ),
+                        child: const TodayTasks(),
                       ),
                       Container(
                         color: AppConst.kBkLight,
                         height: AppConst.kHeight * 0.3,
+                        child: const CompletedTasks(),
                       )
                     ],
                   ),
                 ),
               ),
               const HeightSpacer(hieght: 20),
-              XpansionTile(
-                text: "Tomorrow's Task",
-                text2: "Do stuff ",
-                onExpansionChanged: (bool expanded) {
-                  ref.read(xpansionStateProvider.notifier).setStart(!expanded);
-                },
-                trailing: Padding(
-                  padding: EdgeInsets.only(right: 12.0.w),
-                  child: ref.watch(xpansionStateProvider)
-                      ? const Icon(
-                          AntDesign.circledown,
-                          color: AppConst.kBlueLight,
-                        )
-                      : const Icon(
-                          AntDesign.closecircleo,
-                          color: AppConst.kLight,
-                        ),
-                ),
-                children: [
-                  TodoTile(
-                    start: "03:00",
-                    end: "05:00",
-                    switcher: Switch(value: true, onChanged: (value) {}),
-                  )
-                ],
-              ),
+              const TomorrowList(),
               const HeightSpacer(hieght: 20),
-              XpansionTile(
-                text: DateTime.now()
-                    .add(const Duration(days: 2))
-                    .toString()
-                    .substring(5, 10),
-                text2: "Day after tommorows task",
-                onExpansionChanged: (bool expanded) {
-                  ref.read(xpansionState0Provider.notifier).setStart(!expanded);
-                },
-                trailing: Padding(
-                  padding: EdgeInsets.only(right: 12.0.w),
-                  child: ref.watch(xpansionState0Provider)
-                      ? const Icon(
-                          AntDesign.circledown,
-                          color: AppConst.kBlueLight,
-                        )
-                      : const Icon(
-                          AntDesign.closecircleo,
-                          color: AppConst.kLight,
-                        ),
-                ),
-                children: [
-                  TodoTile(
-                    start: "03:00",
-                    end: "05:00",
-                    switcher: Switch(value: true, onChanged: (value) {}),
-                  )
-                ],
-              ),
+              const DayAfterList()
             ],
           ),
         ),
