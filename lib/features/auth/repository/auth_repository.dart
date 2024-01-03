@@ -51,7 +51,7 @@ class AuthRepository {
           codeSent: (smsCodeId, resendCodeId) {
             DBHelper.createUser(1);
             Navigator.pushNamedAndRemoveUntil(
-                context, Routes.home, (route) => false,
+                context, Routes.otp, (route) => false,
                 arguments: {
                   "phone": phone,
                   "smsCodeId": smsCodeId,
