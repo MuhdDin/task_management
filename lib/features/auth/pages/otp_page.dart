@@ -7,7 +7,10 @@ import 'package:task_manager/common/widget/heighspacer.dart';
 import 'package:task_manager/common/widget/reusable_text.dart';
 
 class OtpPage extends StatelessWidget {
-  const OtpPage({super.key});
+  const OtpPage({super.key, required this.smsCodeId, required this.phone});
+
+  final String smsCodeId;
+  final String phone;
 
   @override
   Widget build(BuildContext context) {

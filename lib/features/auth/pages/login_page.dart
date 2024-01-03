@@ -8,7 +8,9 @@ import 'package:task_manager/common/widget/custom_otn_btn.dart';
 import 'package:task_manager/common/widget/custom_text.dart';
 import 'package:task_manager/common/widget/heighspacer.dart';
 import 'package:task_manager/common/widget/reusable_text.dart';
-import 'package:task_manager/features/auth/pages/otp_page.dart';
+import 'package:task_manager/common/widget/showDialog.dart';
+import 'package:task_manager/features/auth/controllers/auth_controller.dart';
+import 'package:task_manager/features/auth/controllers/code_provider.dart';
 
 class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({super.key});
@@ -20,16 +22,29 @@ class LoginPage extends ConsumerStatefulWidget {
 class _LoginPageState extends ConsumerState<LoginPage> {
   final TextEditingController phone = TextEditingController();
   Country country = Country(
-      phoneCode: "1",
-      countryCode: "US",
+      phoneCode: "86",
+      countryCode: "CN",
       e164Sc: 0,
       geographic: true,
       level: 1,
-      name: "USA",
-      example: "USA",
-      displayName: "United States",
-      displayNameNoCountryCode: "US",
+      name: "China",
+      example: "China",
+      displayName: "China",
+      displayNameNoCountryCode: "CN",
       e164Key: "");
+
+  sendCodeToUser() {
+    if (phone.text.isEmpty) {
+      return showAlertDialog(context: context, message: "Gib PHoNe");
+    } else if (phone.text.length < 8) {
+      return showAlertDialog(context: context, message: "sHORt pP");
+    } else {
+      ref.read(authControllerProvider).sendSms(
+            context: context,
+            phone: '+${country.phoneCode}${phone.text}',
+          );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -66,13 +81,18 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                       showCountryPicker(
                         context: context,
                         countryListTheme: CountryListThemeData(
-                            backgroundColor: AppConst.kLight,
+                            backgroundColor: AppConst.kGreyLight,
                             bottomSheetHeight: AppConst.kHeight * 0.6,
                             borderRadius: BorderRadius.only(
                                 topLeft: Radius.circular(AppConst.kRadius),
                                 topRight: Radius.circular(AppConst.kRadius))),
                         onSelect: (code) {
-                          setState(() {});
+                          setState(() {
+                            country = code;
+                          });
+                          ref
+                              .read(codeStateProvider.notifier)
+                              .setStart(code.phoneCode);
                         },
                       );
                     },
@@ -91,12 +111,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
               padding: const EdgeInsets.all(10.0),
               child: CustomOtlnBtn(
                   onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const OtpPage(),
-                      ),
-                    );
+                    sendCodeToUser();
                   },
                   width: AppConst.kWidth * 0.9,
                   height: AppConst.kHeight * 0.075,
