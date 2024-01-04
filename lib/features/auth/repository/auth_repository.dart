@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:task_manager/common/helpers/db_helper.dart';
 import 'package:task_manager/common/routes/routes.dart';
-import 'package:task_manager/common/widget/showDialog.dart';
+import 'package:task_manager/common/widget/show_dialog.dart';
 
 final authRepositoryProvider = Provider((ref) {
   return AuthRepository(auth: FirebaseAuth.instance);
@@ -38,14 +38,12 @@ class AuthRepository {
     required String phone,
   }) async {
     try {
-      print("errr1, $phone");
       await auth.verifyPhoneNumber(
           phoneNumber: phone,
           verificationCompleted: (PhoneAuthCredential credential) async {
             await auth.signInWithCredential(credential);
           },
           verificationFailed: (e) {
-            print("errr333, $e");
             showAlertDialog(context: context, message: e.toString());
           },
           codeSent: (smsCodeId, resendCodeId) {

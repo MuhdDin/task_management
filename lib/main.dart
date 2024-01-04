@@ -9,7 +9,6 @@ import 'package:task_manager/common/utils/constants.dart';
 import 'package:task_manager/features/auth/controllers/user_controller.dart';
 import 'package:task_manager/features/onboarding/pages/onboarding.dart';
 import 'package:task_manager/features/todo/pages/homepage.dart';
-import 'package:task_manager/features/todo/pages/view_notes.dart';
 import 'package:task_manager/firebase_options.dart';
 
 void main() async {
@@ -54,9 +53,7 @@ class MyApp extends ConsumerWidget {
                   scaffoldBackgroundColor: AppConst.kBkDark,
                   useMaterial3: true),
               themeMode: ThemeMode.dark,
-              home: users.isEmpty
-                  ? const OnBoarding()
-                  : const NotificationsPage(),
+              home: users.isEmpty ? const OnBoarding() : const Homepage(),
               onGenerateRoute: Routes.onGenerateRoute,
             );
           });

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
+import 'package:task_manager/common/helpers/notification_helper.dart';
 import 'package:task_manager/common/utils/constants.dart';
 import 'package:task_manager/common/widget/appstyle.dart';
 import 'package:task_manager/common/widget/custom_text.dart';
@@ -27,6 +28,17 @@ class _HomePageState extends ConsumerState<Homepage>
   late final TabController tabController =
       TabController(length: 2, vsync: this);
   final TextEditingController search = TextEditingController();
+  late NotificationHelper notifierHelper;
+  late NotificationHelper controller;
+
+  @override
+  void initState() {
+    notifierHelper = NotificationHelper(ref: ref);
+    Future.delayed(const Duration(seconds: 0), () {
+      controller = NotificationHelper(ref: ref);
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

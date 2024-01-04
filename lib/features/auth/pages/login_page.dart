@@ -8,7 +8,7 @@ import 'package:task_manager/common/widget/custom_otn_btn.dart';
 import 'package:task_manager/common/widget/custom_text.dart';
 import 'package:task_manager/common/widget/heighspacer.dart';
 import 'package:task_manager/common/widget/reusable_text.dart';
-import 'package:task_manager/common/widget/showDialog.dart';
+import 'package:task_manager/common/widget/show_dialog.dart';
 import 'package:task_manager/features/auth/controllers/auth_controller.dart';
 import 'package:task_manager/features/auth/controllers/code_provider.dart';
 
